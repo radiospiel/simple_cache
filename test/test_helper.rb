@@ -10,6 +10,7 @@ end
 
 require 'ruby-debug'
 require 'simplecov'
+require 'timecop'
 require 'test/unit'
 SimpleCov.start do
   add_filter "test/*.rb"

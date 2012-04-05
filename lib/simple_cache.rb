@@ -5,21 +5,6 @@ require "base64"
 require "digest/md5"
 
 class SimpleCache
-  module Marshal
-    def self.uid(key)
-      md5 = Digest::MD5.hexdigest(key)
-      md5.unpack("LL").inject { |a,b| (a << 31) + b }
-    end
-
-    def self.unmarshal(marshalled)
-      ::Marshal.load Base64.decode64(marshalled) if marshalled
-    end
-
-    def self.marshal(value)
-      Base64.encode64 ::Marshal.dump(value)
-    end
-  end
-
   TABLE_NAME = "simple_cache"
   
   def self.base_dir
@@ -30,10 +15,6 @@ class SimpleCache
     end
   end
   
-  extend Forwardable
-  delegate :ask => :@db
-  delegate [ :uid, :marshal, :unmarshal ] => :@marshaller
-  
   attr :path
   
   def initialize(name)
@@ -41,7 +22,6 @@ class SimpleCache
     FileUtils.mkdir_p File.dirname(@path)
 
     @db = Database.new(@path)
-    @marshaller = SimpleCache::Marshal
     
     begin
       ask("SELECT 1 FROM #{TABLE_NAME} LIMIT 1")
@@ -70,27 +50,38 @@ class SimpleCache
     value
   end
 
+  def cached(key, ttl = nil, &block)
+    fetch(key) do
+      store(key, yield, ttl)
+    end
+  end
+  
   def clear
     ask "DELETE FROM #{TABLE_NAME}"
   end
   
-  def expire(key, ttl)
-    ttl = ttl ? ttl + Time.now.to_i : 0
-    ask("UPDATE #{TABLE_NAME} SET ttl=? WHERE uid=?", ttl, uid(key))
+  private
+  
+  def ask(*args)
+    @db.ask(*args)
   end
+  
+  module Marshal
+    def uid(key)
+      md5 = Digest::MD5.hexdigest(key)
+      md5.unpack("LL").inject { |a,b| (a << 31) + b }
+    end
 
-  def cached(key, ttl = nil, &block)
-    fetch(key) do
-      set(key, yield, ttl)
+    def unmarshal(marshalled)
+      ::Marshal.load Base64.decode64(marshalled) if marshalled
+    end
+
+    def marshal(value)
+      Base64.encode64 ::Marshal.dump(value)
     end
   end
-
-  # redis-like aliases
+  include Marshal
   
-  alias :get :fetch
-  alias :set :store
-  alias :flush_db :clear
-
   # A simplistic Sqlite interface
   class Database
     def initialize(path)
