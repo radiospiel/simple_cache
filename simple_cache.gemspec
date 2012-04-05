@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = "simple_cache"
-  s.version = "0.8.0"
+  s.version = "0.8.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["radiospiel"]
@@ -25,7 +25,8 @@ Gem::Specification.new do |s|
     "Rakefile",
     "VERSION",
     "lib/simple_cache.rb",
-    "test/helper.rb",
+    "simple_cache.gemspec",
+    "test/test_helper.rb",
     "test/test_simple_cache.rb"
   ]
   s.homepage = "http://github.com/radiospiel/simple_cache"
