@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "simple_cache"
-  s.version = "0.8.1"
+  s.version = "0.9.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["radiospiel"]
-  s.date = "2012-04-05"
+  s.date = "2012-04-08"
   s.description = "A sensibly fast, yet simplistic file based cache."
   s.email = "eno@open-lab.org"
   s.extra_rdoc_files = [
@@ -25,9 +25,13 @@ Gem::Specification.new do |s|
     "Rakefile",
     "VERSION",
     "lib/simple_cache.rb",
+    "lib/simple_cache/marshal.rb",
+    "lib/simple_cache/redis_store.rb",
+    "lib/simple_cache/sqlite_store.rb",
     "simple_cache.gemspec",
-    "test/test_helper.rb",
-    "test/test_simple_cache.rb"
+    "test/redis_store_test.rb",
+    "test/sqlite_store_test.rb",
+    "test/test_helper.rb"
   ]
   s.homepage = "http://github.com/radiospiel/simple_cache"
   s.licenses = ["MIT"]
@@ -45,6 +49,7 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<simplecov>, [">= 0"])
       s.add_development_dependency(%q<ruby-debug19>, [">= 0"])
       s.add_development_dependency(%q<timecop>, [">= 0"])
+      s.add_development_dependency(%q<redis>, [">= 0"])
     else
       s.add_dependency(%q<sqlite3>, [">= 0"])
       s.add_dependency(%q<bundler>, [">= 0"])
@@ -52,6 +57,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<simplecov>, [">= 0"])
       s.add_dependency(%q<ruby-debug19>, [">= 0"])
       s.add_dependency(%q<timecop>, [">= 0"])
+      s.add_dependency(%q<redis>, [">= 0"])
     end
   else
     s.add_dependency(%q<sqlite3>, [">= 0"])
@@ -60,6 +66,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<simplecov>, [">= 0"])
     s.add_dependency(%q<ruby-debug19>, [">= 0"])
     s.add_dependency(%q<timecop>, [">= 0"])
+    s.add_dependency(%q<redis>, [">= 0"])
   end
 end
 
