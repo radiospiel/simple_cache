@@ -9,5 +9,6 @@ group :development do
   gem 'simplecov', :require => false
   gem "ruby-debug19"
   gem "timecop"
+  gem "redis"
 end
 
