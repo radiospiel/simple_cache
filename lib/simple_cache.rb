@@ -25,19 +25,23 @@ module SimpleCache
   singleton_class.class_eval do
     attr :url, true
 
-    def store
+    def url
+      @url || raise(ArgumentError, "Missing 'SimpleCache.url' setting.")
+    end
+
+    def cache_store
       Thread.current["simple_cache_store"] ||= new(url)
+    end
+  end
+
+  def cached(key, ttl = nil, &block)
+    fetch(key) do
+      store(key, yield, ttl)
     end
   end
 
   singleton_class.class_eval do
     extend Forwardable
-    delegate [:fetch, :store, :cached, :clear] => :store
-  end
-  
-  def cached(key, ttl = nil, &block)
-    fetch(key) do
-      store(key, yield, ttl)
-    end
+    delegate [:fetch, :store, :clear, :cached] => :cache_store
   end
 end
