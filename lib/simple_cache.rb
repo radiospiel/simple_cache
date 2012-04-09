@@ -25,14 +25,14 @@ module SimpleCache
   singleton_class.class_eval do
     attr :url, true
 
-    def store
+    def cache_store
       Thread.current["simple_cache_store"] ||= new(url)
     end
   end
 
   singleton_class.class_eval do
     extend Forwardable
-    delegate [:fetch, :store, :cached, :clear] => :store
+    delegate [:fetch, :store, :cached, :clear] => :cache_store
   end
   
   def cached(key, ttl = nil, &block)
