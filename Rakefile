@@ -14,7 +14,7 @@ require 'rake'
 require 'jeweler'
 Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
-  gem.name = "simple_cache"
+  gem.name = "simple_cache_rs"
   gem.homepage = "http://github.com/radiospiel/simple_cache"
   gem.license = "MIT"
   gem.summary = %Q{You need a cache? Just throw me in.}
