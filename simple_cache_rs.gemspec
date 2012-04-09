@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = "simple_cache_rs"
-  s.version = "0.9.1"
+  s.version = "0.9.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["radiospiel"]
@@ -29,6 +29,7 @@ Gem::Specification.new do |s|
     "lib/simple_cache/redis_store.rb",
     "lib/simple_cache/sqlite_store.rb",
     "simple_cache.gemspec",
+    "simple_cache_rs.gemspec",
     "test/redis_store_test.rb",
     "test/sqlite_store_test.rb",
     "test/test_helper.rb"
