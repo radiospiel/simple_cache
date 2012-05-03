@@ -39,7 +39,9 @@ module SimpleCache
 
   def cached(key, ttl = nil, &block)
     fetch(key) do
-      store(key, yield, ttl)
+      value = yield
+      store(key, value, ttl) unless ttl == 0 || ttl == false
+      value
     end
   end
 end
