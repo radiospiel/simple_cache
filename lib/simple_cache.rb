@@ -33,8 +33,25 @@ module SimpleCache
       Thread.current["simple_cache_store"] ||= new(url)
     end
 
-    extend Forwardable
-    delegate [:fetch, :store, :clear, :cached] => :cache_store
+    def fetch(key, &block)
+      key = SimpleCache.cache_key(key)
+      cache_store.fetch(key, &block)
+    end
+    
+    def store(key, value)
+      key = SimpleCache.cache_key(key)
+      cache_store.store key, value
+    end
+    
+    def clear(key)
+      key = SimpleCache.cache_key(key)
+      cache_store.clear key
+    end
+    
+    def cached(key, ttl = nil, &block)
+      key = SimpleCache.cache_key(key)
+      cache_store.cached key, ttl, &block
+    end
   end
 
   module Interface
@@ -61,6 +78,46 @@ module SimpleCache
       }
     end
   end
+
+  def self.cache_key(obj)
+    if obj.respond_to?(:cache_key)
+      obj.cache_key
+    elsif obj.is_a?(String)
+      SimpleCache::Marshal.md5 obj
+    else
+      marshalled = SimpleCache::Marshal.marshal(obj)
+      SimpleCache::Marshal.md5 marshalled
+    end
+  end
+  
+  # The SimplyCached module contains a method to easily implement
+  # memoized-like caching on top of SimpleCache
+  module SimplyCached
+    def simply_cached(method, options = {})
+      ttl = options[:ttl]
+
+      uncached_method = "#{method}__uncached".to_sym
+
+      alias_method uncached_method, method
+
+      define_method(method) do |*args|
+        cache_key = args.empty? ? self : [ self ] + args
+        current_ttl = if ttl.respond_to?(:call)
+          ttl.send(:call, *args)
+        else
+          ttl
+        end
+
+        SimpleCache.cached(cache_key, current_ttl) do
+          self.send uncached_method, *args
+        end 
+      end
+    end
+  end
+end
+
+class Module
+  include SimpleCache::SimplyCached
 end
 
 at_exit do

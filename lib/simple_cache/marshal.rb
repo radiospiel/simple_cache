@@ -5,8 +5,11 @@ module SimpleCache::Marshal
   extend self
   
   def uid(key)
-    md5 = Digest::MD5.hexdigest(key)
-    md5.unpack("LL").inject { |a,b| (a << 31) + b }
+    md5(key).unpack("LL").inject { |a,b| (a << 31) + b }
+  end
+
+  def md5(key)
+    Digest::MD5.hexdigest(key)
   end
 
   def unmarshal(marshalled)
