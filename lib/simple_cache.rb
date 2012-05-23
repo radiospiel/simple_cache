@@ -80,13 +80,20 @@ module SimpleCache
   end
 
   def self.cache_key(obj)
-    if obj.respond_to?(:cache_key)
-      obj.cache_key
-    elsif obj.is_a?(String)
+    return SimpleCache::Marshal.md5(obj.cache_key) if obj.respond_to?(:cache_key)
+
+    case obj
+    when String
       SimpleCache::Marshal.md5 obj
+    when Hash
+      parts = []
+      obj.each { |k,v| parts << cache_key(k) << cache_key(v) }
+      SimpleCache::Marshal.md5 parts.join("/")
+    when Array
+      parts = obj.map { |part| cache_key(part) }
+      SimpleCache::Marshal.md5 parts.join(":")
     else
-      marshalled = SimpleCache::Marshal.marshal(obj)
-      SimpleCache::Marshal.md5 marshalled
+      SimpleCache::Marshal.md5 self.inspect
     end
   end
   
