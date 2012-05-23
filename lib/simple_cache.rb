@@ -38,12 +38,34 @@ module SimpleCache
   end
 
   module Interface
+    @@requests = @@misses = 0
+
     def cached(key, ttl = nil, &block)
+      @@requests += 1
+      
       fetch(key) do
+        @@misses += 1
+
         value = yield
         store(key, value, ttl) unless ttl == 0 || ttl == false
         value
       end
     end
+
+    def self.stats
+      return {} if @@requests == 0
+      
+      {
+        :hits => @@requests - @@misses,
+        :misses => @@misses
+      }
+    end
   end
+end
+
+at_exit do
+  stats = SimpleCache::Interface.stats
+  next if stats.empty?
+  
+  STDERR.puts "SimpleCache stats: #{stats[:hits]} hits, #{stats[:misses]} misses"
 end
