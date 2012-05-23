@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "simple_cache_rs"
-  s.version = "0.9.3"
+  s.version = "0.10.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["radiospiel"]
-  s.date = "2012-05-03"
+  s.date = "2012-05-23"
   s.description = "A sensibly fast, yet simplistic file based cache."
   s.email = "eno@open-lab.org"
   s.extra_rdoc_files = [
@@ -30,6 +30,7 @@ Gem::Specification.new do |s|
     "lib/simple_cache/sqlite_store.rb",
     "simple_cache.gemspec",
     "simple_cache_rs.gemspec",
+    "test/memoize_test.rb",
     "test/redis_store_test.rb",
     "test/simple_cache_test.rb",
     "test/sqlite_store_test.rb",
