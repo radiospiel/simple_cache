@@ -4,7 +4,7 @@ class SimpleCache::SqliteStoreTest < Test::Unit::TestCase
   include SimpleCache::TestCase
 
   def simple_cache
-    @simple_cache ||= SimpleCache.new("simple_cache_test").tap(&:clear)
+    @simple_cache ||= SimpleCache.new("#{ROOT}/test/simple_cache_test").tap(&:clear)
   end
   
   def teardown

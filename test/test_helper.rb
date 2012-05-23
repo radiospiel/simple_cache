@@ -16,6 +16,8 @@ SimpleCov.start do
   add_filter "test/*.rb"
 end
 
+ROOT = File.join(File.dirname(__FILE__), '..')
+
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'simple_cache'
