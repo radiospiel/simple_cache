@@ -21,10 +21,6 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'simple_cache'
 
 module SimpleCache::TestCase
-  def test_simple_cache_kindof
-    assert simple_cache.kind_of?(SimpleCache)
-  end
-  
   def test_simple_cache
     assert_equal(nil, simple_cache.fetch("bar"))
 

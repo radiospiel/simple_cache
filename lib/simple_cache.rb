@@ -19,7 +19,7 @@ module SimpleCache
     else                raise uri.scheme.inspect
     end
     
-    cache.extend SimpleCache
+    cache.extend SimpleCache::Interface
   end
 
   singleton_class.class_eval do
@@ -37,11 +37,13 @@ module SimpleCache
     delegate [:fetch, :store, :clear, :cached] => :cache_store
   end
 
-  def cached(key, ttl = nil, &block)
-    fetch(key) do
-      value = yield
-      store(key, value, ttl) unless ttl == 0 || ttl == false
-      value
+  module Interface
+    def cached(key, ttl = nil, &block)
+      fetch(key) do
+        value = yield
+        store(key, value, ttl) unless ttl == 0 || ttl == false
+        value
+      end
     end
   end
 end
