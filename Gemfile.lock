@@ -3,6 +3,7 @@ GEM
   specs:
     archive-tar-minitar (0.5.2)
     columnize (0.3.6)
+    expectation (0.1.1)
     linecache19 (0.5.12)
       ruby_core_source (>= 0.1.4)
     multi_json (1.3.6)
@@ -32,6 +33,7 @@ PLATFORMS
 
 DEPENDENCIES
   bundler
+  expectation
   rake
   redis
   redis-namespace

@@ -1,5 +1,6 @@
 source "http://rubygems.org"
 gem "sqlite3"
+gem "expectation"
 gem "redis"
 gem "redis-namespace"
 
