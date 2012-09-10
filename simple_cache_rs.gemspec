@@ -1,6 +1,6 @@
 Gem::Specification.new do |gem|
   gem.name     = "simple_cache_rs"
-  gem.version  = "0.10.1"
+  gem.version  = "0.10.2"
 
   gem.author   = "radiospiel"
   gem.email    = "eno@radiospiel.org"
