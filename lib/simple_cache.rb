@@ -5,14 +5,19 @@ end
 
 require_relative "simple_cache/marshal"
 require_relative "simple_cache/sqlite_store"
+require_relative "simple_cache/redis_store"
 
 module SimpleCache
   def self.new(url)
+    case url 
+    when Redis, Redis::Namespace then
+      return SimpleCache::RedisStore.new(url)
+    end
+
     uri = URI.parse(url)
     
     cache = case uri.scheme
     when "redis"        then 
-      require_relative "simple_cache/redis_store"
       SimpleCache::RedisStore.new(url)
     when nil, "sqlite"  then 
       SimpleCache::SqliteStore.new(uri.path)

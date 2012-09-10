@@ -1,10 +1,16 @@
 require "redis"
+require "redis/namespace"
 
 class SimpleCache::RedisStore
   Marshal = ::SimpleCache::Marshal
   
-  def initialize(url)
-    @redis = Redis.connect(:url => url)
+  def initialize(redis)
+    case redis
+    when Redis, Redis::Namespace
+      @redis = redis
+    else 
+      @redis = Redis.connect(:url => redis)
+    end
   end
   
   def clear
