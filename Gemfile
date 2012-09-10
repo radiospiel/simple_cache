@@ -1,5 +1,7 @@
 source "http://rubygems.org"
 gem "sqlite3"
+gem "redis"
+gem "redis-namespace"
 
 # Add dependencies to develop your gem here.
 # Include everything needed to run rake, tests, features, etc.
