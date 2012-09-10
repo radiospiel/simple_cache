@@ -1,5 +1,5 @@
 Gem::Specification.new do |gem|
-  gem.name     = "simple_cache"
+  gem.name     = "simple_cache_rs"
   gem.version  = "0.10.1"
 
   gem.author   = "radiospiel"
