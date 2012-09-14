@@ -9,7 +9,7 @@ Gem::Specification.new do |gem|
 
   gem.description = gem.summary
 
-  gem.add_dependency "sqlite3"
+  # gem.add_dependency "sqlite3"
   gem.add_dependency "expectation"
   gem.add_dependency "redis"
   gem.add_dependency "redis-namespace"

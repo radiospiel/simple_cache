@@ -11,3 +11,6 @@ group :development do
   gem "timecop"
 end
 
+group :test do
+  gem "sqlite3"
+end

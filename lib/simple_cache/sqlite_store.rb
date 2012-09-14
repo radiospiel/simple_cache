@@ -1,8 +1,8 @@
-require "sqlite3"
-
 # A simplistic Sqlite database interface
 class SimpleCache::SqliteDatabase
   def initialize(path)
+    require "sqlite3"
+
     FileUtils.mkdir_p File.dirname(@path)
 
     @impl = SQLite3::Database.new(path)
