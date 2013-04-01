@@ -28,13 +28,17 @@ module SimpleCache::TestCase
 
     assert_equal("foo", simple_cache.store("bar", "foo"))
     assert_equal("foo", simple_cache.fetch("bar"))
-    
+  end
+  
+  def test_simple_cache_expiration
     done = 0
-    assert_equal "baz", simple_cache.cached("key") { done += 1; "baz" }
+    assert_equal "baz", simple_cache.cached("key2") { done += 1; "baz" }
     assert_equal 1, done
-    assert_equal "baz", simple_cache.cached("key") { done += 1; "baz" }
+    assert_equal "baz", simple_cache.cached("key2") { done += 1; "baz" }
     assert_equal 1, done
-
+  end
+  
+  def test_simple_cache_store_and_fetch
     assert_equal(nil, simple_cache.store("bar", nil))
     assert_equal(nil, simple_cache.fetch("bar"))
   end
