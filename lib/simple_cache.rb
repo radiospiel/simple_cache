@@ -1,4 +1,5 @@
 require "uri"
+require "expectation"
 
 module SimpleCache
 end
