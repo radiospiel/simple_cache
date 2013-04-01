@@ -5,7 +5,6 @@ module SimpleCache
 end
 
 require_relative "simple_cache/marshal"
-require_relative "simple_cache/sqlite_store"
 
 module SimpleCache
   def self.new(url)
@@ -16,7 +15,11 @@ module SimpleCache
       require_relative "simple_cache/redis_store"
       SimpleCache::RedisStore.new(url)
     when nil, "sqlite"  then 
+      require_relative "simple_cache/sqlite_store"
       SimpleCache::SqliteStore.new(uri.path)
+    when "pg"           then
+      require_relative "simple_cache/pg_store"
+      SimpleCache::PgStore.new(url)
     else                raise uri.scheme.inspect
     end
     
