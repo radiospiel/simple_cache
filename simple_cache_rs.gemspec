@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "simple_cache_rs"
-  s.version = "0.10.0"
+  s.version = "0.10.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["radiospiel"]
-  s.date = "2012-05-23"
+  s.date = "2013-04-01"
   s.description = "A sensibly fast, yet simplistic file based cache."
   s.email = "eno@open-lab.org"
   s.extra_rdoc_files = [
@@ -26,11 +26,13 @@ Gem::Specification.new do |s|
     "VERSION",
     "lib/simple_cache.rb",
     "lib/simple_cache/marshal.rb",
+    "lib/simple_cache/pg_store.rb",
     "lib/simple_cache/redis_store.rb",
     "lib/simple_cache/sqlite_store.rb",
     "simple_cache.gemspec",
     "simple_cache_rs.gemspec",
     "test/memoize_test.rb",
+    "test/pg_store_test.rb",
     "test/redis_store_test.rb",
     "test/simple_cache_test.rb",
     "test/sqlite_store_test.rb",
@@ -47,6 +49,8 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<sqlite3>, [">= 0"])
+      s.add_runtime_dependency(%q<micro_sql>, [">= 0"])
+      s.add_runtime_dependency(%q<expectation>, [">= 0"])
       s.add_development_dependency(%q<bundler>, [">= 0"])
       s.add_development_dependency(%q<jeweler>, [">= 0"])
       s.add_development_dependency(%q<simplecov>, [">= 0"])
@@ -55,6 +59,8 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<redis>, [">= 0"])
     else
       s.add_dependency(%q<sqlite3>, [">= 0"])
+      s.add_dependency(%q<micro_sql>, [">= 0"])
+      s.add_dependency(%q<expectation>, [">= 0"])
       s.add_dependency(%q<bundler>, [">= 0"])
       s.add_dependency(%q<jeweler>, [">= 0"])
       s.add_dependency(%q<simplecov>, [">= 0"])
@@ -64,6 +70,8 @@ Gem::Specification.new do |s|
     end
   else
     s.add_dependency(%q<sqlite3>, [">= 0"])
+    s.add_dependency(%q<micro_sql>, [">= 0"])
+    s.add_dependency(%q<expectation>, [">= 0"])
     s.add_dependency(%q<bundler>, [">= 0"])
     s.add_dependency(%q<jeweler>, [">= 0"])
     s.add_dependency(%q<simplecov>, [">= 0"])
