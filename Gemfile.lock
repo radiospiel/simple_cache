@@ -1,15 +1,18 @@
+PATH
+  remote: .
+  specs:
+    simple_cache_rs (0.11.0)
+      expectation
+      micro_sql
+      redis
+      redis-namespace
+
 GEM
   remote: http://rubygems.org/
   specs:
     archive-tar-minitar (0.5.2)
     columnize (0.3.6)
     expectation (0.3.1)
-    git (1.2.5)
-    jeweler (1.8.4)
-      bundler (~> 1.0)
-      git (>= 1.2.5)
-      rake
-      rdoc
     json (1.7.7)
     linecache19 (0.5.12)
       ruby_core_source (>= 0.1.4)
@@ -22,6 +25,8 @@ GEM
     rdoc (4.0.1)
       json (~> 1.4)
     redis (3.0.3)
+    redis-namespace (1.2.1)
+      redis (~> 3.0.0)
     ruby-debug-base19 (0.11.25)
       columnize (>= 0.3.1)
       linecache19 (>= 0.5.11)
@@ -43,12 +48,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bundler
-  expectation
-  jeweler
-  micro_sql
-  redis
+  rake
+  rdoc
   ruby-debug19
+  simple_cache_rs!
   simplecov
   sqlite3
   timecop

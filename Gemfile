@@ -1,17 +1,16 @@
 source "http://rubygems.org"
 
-gem "sqlite3"
-gem "micro_sql"
-gem "expectation"
+gem "rake"
+gem "rdoc"
 
-# Add dependencies to develop your gem here.
-# Include everything needed to run rake, tests, features, etc.
-group :development do
-  gem "bundler"
-  gem "jeweler"
-  gem 'simplecov', :require => false
+gemspec
+
+
+group :test do
+  #gem "sqlite3"
   gem "ruby-debug19"
+  gem "simplecov", :require => false
   gem "timecop"
 
-  gem "redis"
+  gem "sqlite3"
 end

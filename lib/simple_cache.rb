@@ -6,24 +6,34 @@ end
 
 require_relative "simple_cache/marshal"
 
+require_relative "simple_cache/sqlite_store"
+require_relative "simple_cache/redis_store"
+
 module SimpleCache
-  def self.new(url)
-    uri = URI.parse(url)
-    
-    cache = case uri.scheme
-    when "redis"        then 
-      require_relative "simple_cache/redis_store"
-      SimpleCache::RedisStore.new(url)
-    when nil, "sqlite"  then 
-      require_relative "simple_cache/sqlite_store"
-      SimpleCache::SqliteStore.new(uri.path)
-    when "pg"           then
-      require_relative "simple_cache/pg_store"
-      SimpleCache::PgStore.new(url)
-    else                raise uri.scheme.inspect
+  def self.create_store(url)
+    expect! url => [ String, Redis, Redis::Namespace ]
+    case url 
+    when Redis, Redis::Namespace then
+      return SimpleCache::RedisStore.new(url)
+    when String
+      uri = URI.parse(url)
+
+      case uri.scheme
+      when "redis"        then 
+        return SimpleCache::RedisStore.new(url)
+      when nil, "sqlite"  then 
+        return SimpleCache::SqliteStore.new(uri.path)
+      when "pg"
+        require_relative "simple_cache/pg_store"
+        return SimpleCache::PgStore.new(url)
+      else                
+        raise uri.scheme.inspect
+      end
     end
-    
-    cache.extend SimpleCache::Interface
+  end
+  
+  def self.new(url)
+    create_store(url).extend SimpleCache::Interface
   end
 
   singleton_class.class_eval do
