@@ -15,7 +15,9 @@ task :default => :test
 
 require 'rdoc/task'
 Rake::RDocTask.new do |rdoc|
-  version = File.exist?('VERSION') ? File.read('VERSION') : ""
+  if File.readlines("simple_cache_rs.gemspec").grep(/version/).first =~ /(\d+\.\d+\.\d+)/
+    version = $1
+  end
 
   rdoc.rdoc_dir = 'rdoc'
   rdoc.title = "micro_sql #{version}"
