@@ -3,7 +3,7 @@ require "micro_sql"
 class SimpleCache::PgStore
   Marshal = ::SimpleCache::Marshal
   
-  TABLE_NAME = "simple_cache"
+  TABLE_NAME = "simple_cache2"
 
   attr :path
 
@@ -18,18 +18,18 @@ class SimpleCache::PgStore
 
   def fetch(key, &block)
     value = table[key]
-    return value if value
+    return Marshal.unmarshal(value) if value
     return yield(self, key) if block
     nil
   end
 
   def store(key, value, ttl = nil)
-    table.update(key, value, ttl)
+    table.update(key, Marshal.marshal(value), ttl)
     value
   end
 
   def clear
-    return unless @db.tables.include?(TABLE_NAME)
-    @db.ask "DELETE FROM #{TABLE_NAME}"
+    return unless @db.tables.include?(table.table_name)
+    @db.ask "DELETE FROM #{table.table_name}"
   end
 end

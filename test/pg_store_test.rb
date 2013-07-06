@@ -4,7 +4,11 @@ class SimpleCache::PgStoreTest < Test::Unit::TestCase
   include SimpleCache::TestCase
 
   def simple_cache
-    @simple_cache ||= SimpleCache.new("pg://simple_cache:simple_cache@localhost/simple_cache_test").tap(&:clear)
+    @simple_cache ||= begin
+      simple_cache = SimpleCache.new("pg://simple_cache:simple_cache@localhost:5432/simple_cache_test")
+      simple_cache.clear
+      simple_cache
+    end
   end
   
   def test_expiration
@@ -14,5 +18,11 @@ class SimpleCache::PgStoreTest < Test::Unit::TestCase
       assert_equal("1", simple_cache.fetch("forever"))
       assert_equal(nil, simple_cache.fetch("young"))
     end
+  end
+  
+  def test_array
+    ary = %w(foo bar)
+    assert_equal(ary, simple_cache.store("ary", ary))
+    assert_equal(ary, simple_cache.fetch("ary"))
   end
 end
