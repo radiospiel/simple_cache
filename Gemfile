@@ -15,4 +15,7 @@ group :test do
   
   gem "sqlite3"
   gem "pg"
+  
+  gem "dalli"
+  gem "kgio"
 end
