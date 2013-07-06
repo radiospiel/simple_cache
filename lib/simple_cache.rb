@@ -8,6 +8,7 @@ require_relative "simple_cache/marshal"
 
 require_relative "simple_cache/sqlite_store"
 require_relative "simple_cache/redis_store"
+require_relative "simple_cache/null_store"
 
 module SimpleCache
   def self.create_store(url)
@@ -15,6 +16,8 @@ module SimpleCache
     case url 
     when Redis, Redis::Namespace then
       return SimpleCache::RedisStore.new(url)
+    when "null:", nil
+      return SimpleCache::NullStore.new
     when String
       uri = URI.parse(url)
 

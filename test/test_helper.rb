@@ -27,7 +27,12 @@ module SimpleCache::TestCase
     assert_equal(nil, simple_cache.fetch("bar"))
 
     assert_equal("foo", simple_cache.store("bar", "foo"))
-    assert_equal("foo", simple_cache.fetch("bar"))
+
+    if simple_cache.is_a?(SimpleCache::NullStore)
+      assert_equal(nil, simple_cache.fetch("bar"))
+    else
+      assert_equal("foo", simple_cache.fetch("bar"))
+    end
   end
   
   def test_simple_cache_expiration
@@ -35,7 +40,12 @@ module SimpleCache::TestCase
     assert_equal "baz", simple_cache.cached("key2") { done += 1; "baz" }
     assert_equal 1, done
     assert_equal "baz", simple_cache.cached("key2") { done += 1; "baz" }
-    assert_equal 1, done
+
+    if simple_cache.is_a?(SimpleCache::NullStore)
+      assert_equal 2, done
+    else
+      assert_equal 1, done
+    end
   end
 
   def test_simple_cache_clear
