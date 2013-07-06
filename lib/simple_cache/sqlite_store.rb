@@ -1,9 +1,10 @@
 # A simplistic Sqlite database interface
 class SimpleCache::SqliteDatabase
-  def initialize(path)
+  def initialize(url)
     require "sqlite3"
 
-    FileUtils.mkdir_p File.dirname(@path)
+    path = URI.parse(url).path
+    FileUtils.mkdir_p File.dirname(path)
 
     @impl = SQLite3::Database.new(path)
     @prepared_queries = {}
@@ -27,9 +28,9 @@ class SimpleCache::SqliteStore < SimpleCache::SqliteDatabase
 
   def self.base_dir
     if RUBY_PLATFORM.downcase.include?("darwin")
-      "#{Dir.home}/Library/Cache"
+      "#{Dir.home}/Library/Caches/org.radiospiel.simple_cache"
     else
-      "#{Dir.home}/cache"
+      "#{Dir.home}/.org.radiospiel.simple_cache"
     end
   end
 
