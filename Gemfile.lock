@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    simple_cache_rs (0.12.1)
+    simple_cache_rs (0.12.2)
       expectation
       micro_sql
       redis

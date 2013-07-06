@@ -6,7 +6,11 @@ class SimpleCache::MemcachedStore
 
     uri = URI.parse(url)
 
-    @dc = Dalli::Client.new("#{uri.host}:#{uri.port}", :namespace => uri.path || "simple_cache", :compress => true)
+    @dc = Dalli::Client.new "#{uri.host}:#{uri.port}", 
+      :namespace => (uri.path == "/" || uri.path == "" ? "simple_cache" : uri.path), 
+      :compress => true,
+      :username => uri.user,
+      :password => uri.password
   end
   
   def fetch(key, &block)
